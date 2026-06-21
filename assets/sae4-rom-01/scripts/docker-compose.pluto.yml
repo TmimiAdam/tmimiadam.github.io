@@ -1,0 +1,55 @@
+services:
+  epc:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.srslte
+    container_name: sae4rom01-pluto-epc
+    command: ["/scripts/entrypoint-epc.sh"]
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - ./config/epc_pluto.conf:/etc/srsran/epc.conf:ro
+      - ./config/user_db.csv:/etc/srsran/user_db.csv:ro
+      - ./logs/epc:/var/log/srsran
+      - ./scripts:/scripts:ro
+
+  enb:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.srslte
+    container_name: sae4rom01-pluto-enb
+    command: ["/scripts/entrypoint-enb.sh"]
+    network_mode: host
+    privileged: true
+    depends_on:
+      - epc
+    volumes:
+      - ./config/enb_pluto.conf:/etc/srsran/enb.conf:ro
+      - ./config/rr.conf:/etc/srsran/rr.conf:ro
+      - ./config/rb.conf:/etc/srsran/rb.conf:ro
+      - ./config/sib.conf:/etc/srsran/sib.conf:ro
+      - ./logs/enb:/var/log/srsran
+      - ./scripts:/scripts:ro
+
+  ue:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.srslte
+    container_name: sae4rom01-pluto-ue
+    command: ["/scripts/entrypoint-ue.sh"]
+    network_mode: host
+    privileged: true
+    depends_on:
+      - enb
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - ./config/ue_pluto.conf:/etc/srsran/ue.conf:ro
+      - ./logs/ue:/var/log/srsran
+      - ./scripts:/scripts:ro

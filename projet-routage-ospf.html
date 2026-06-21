@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet: Réseau d'Entreprise - Adam Tmimi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo">Adam Tmimi.</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.html#portfolio" class="active">Portfolio</a></li>
+                <li><a href="parcours.html">Parcours</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="project-page">
+        <div class="container">
+            
+            <a href="administrer.html" class="back-link">&larr; Retour au bloc Administrer</a>
+            
+            <h1>Conception de la structure d'un réseau d'entreprise </h1>
+            <span class="hero-subtitle">Compétences: Administrer (AC21.01) & Connecter</span>
+
+            <img src="pdf/images/schema-reseau-final.png" alt="Schéma réseau du projet" class="project-main-image">
+
+            <div class="project-meta">
+                <h3>Infos Clés</h3>
+                <p><strong>Contexte:</strong> Projet académique (BUT R&T - IUT de Béthune) [cite: 28]</p>
+                <p><strong>Outils:</strong> Cisco Packet Tracer [cite: 39], VMware [cite: 40], Wireshark [cite: 39]</p>
+                <p><strong>Compétences:</strong> Routage & Switching, VLANs, Active Directory, Sécurisation [cite: 40]</p>
+            </div>
+
+            <h2>Objectif du Projet</h2>
+            <p>
+                L'objectif était de concevoir, simuler et configurer l'ensemble du réseau
+                d'une PME fictive. Cela incluait la segmentation des départements (VLANs),
+                la mise en place de services essentiels (DHCP, DNS, Active Directory) et
+                la configuration du routage inter-VLAN.
+            </p>
+
+            <h2>Ma Démarche</h2>
+            <p>
+                Mon travail s'est décomposé en plusieurs étapes :
+            </p>
+            <ol>
+                <li><strong>Analyse des besoins :</strong> Définir le nombre de postes, les départements et les besoins en serveurs.</li>
+                <li><strong>Adressage IP :</strong> Créer un plan d'adressage IP optimisé (VLSM).</li>
+                <li><strong>Simulation :</strong> Construire la topologie sur Cisco Packet Tracer [cite: 39] et configurer les switchs (VLANs) et routeurs.</li>
+                <li><strong>Virtualisation :</strong> Déployer les serveurs (Windows Server pour AD, Linux pour DNS/DHCP) sur VMware[cite: 40].</li>
+                <li><strong>Tests :</strong> Valider la connectivité entre les VLANs et le bon fonctionnement des services.</li>
+            </ol>
+
+            <h2>Galerie d'images</h2>
+            <p>Captures d'écran de la simulation et des configurations.</p>
+            <div class="project-gallery">
+                <a href="pdf/images/packet-tracer-1.png" target="_blank">
+                    <img src="pdf/images/packet-tracer-1.png" alt="Topologie Packet Tracer">
+                </a>
+                <a href="pdf/images/config-vlan.png" target="_blank">
+                    <img src="pdf/images/config-vlan.png" alt="Configuration VLAN Switch">
+                </a>
+                <a href="pdf/images/vmware-ad.png" target="_blank">
+                    <img src="pdf/images/vmware-ad.png" alt="Configuration Active Directory">
+                </a>
+            </div>
+
+            <h2>Documents & Livrables</h2>
+            <p>Rapport de projet et documentation technique.</p>
+            <ul class="project-docs">
+                <li>
+                    <a href="pdf/rapport-projet-reseau.pdf" target="_blank">
+                        <i class="fas fa-file-pdf"></i> Rapport de projet final (.pdf)
+                    </a>
+                </li>
+                <li>
+                    <a href="pdf/schema-adressage-ip.pdf" target="_blank">
+                        <i class="fas fa-file-pdf"></i> Plan d'adressage IP détaillé (.pdf)
+                    </a>
+                </li>
+            </ul>
+
+            <h2>Résultats et ce que j'ai appris</h2>
+            <p>
+                Ce projet a été un succès. J'ai pu valider l'ensemble des objectifs, avec un
+                réseau fonctionnel et segmenté. J'ai surtout appris à articuler
+                différentes briques technologiques (routage, virtualisation, services système)
+                pour répondre à un besoin d'entreprise concret.
+            </p>
+            
+        </div> </main>
+
+    <footer id="contact" class="footer">
+        </footer>
+
+</body>
+</html>

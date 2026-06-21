@@ -1,0 +1,126 @@
+Building configuration...
+
+Current configuration : 1789 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R-HQ
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$3BvKLHmpEjITaJXT9nmgT/
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524H06P-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name sae.local
+!
+!
+spanning-tree mode pvst
+!
+class-map match-any CM-VIDEO
+!
+policy-map PM-WAN-QOS
+ class CM-VIDEO
+  priority percent 30
+ class class-default
+  fair-queue
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.10.254 255.255.255.255
+ ip access-group ALLOW-ICMP-MGMT in
+!
+interface Tunnel0
+ ip address 10.0.0.2 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/0
+ tunnel destination 192.168.3.2
+!
+!
+interface GigabitEthernet0/0
+ description WAN-TO-BRANCH
+ ip address 192.168.3.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description L3-TO-CORE-SW1
+ ip address 172.16.0.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ description L3-TO-CORE-SW2
+ ip address 172.16.0.5 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 10.10.10.10
+ log-adjacency-changes
+ network 172.16.0.0 0.0.0.3 area 0
+ network 172.16.0.4 0.0.0.3 area 0
+ network 10.0.0.0 0.0.0.3 area 0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list standard MGMT
+ permit 192.168.10.0 0.0.0.255
+ip access-list extended GRE-TRAFFIC
+ permit gre host 192.168.3.1 host 192.168.3.2
+ip access-list extended ALLOW-ICMP-MGMT
+ permit icmp 192.168.10.0 0.0.0.255 host 192.168.10.254
+ permit ip any any
+!
+!
+!
+!
+!
+logging 192.168.10.11
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ access-class MGMT in
+ login local
+ transport input ssh
+!
+!
+!
+end

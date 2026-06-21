@@ -1,0 +1,16 @@
+PCAP : pluto_core_wire.pcap
+Lien observé : eNodeB 127.0.1.1:34755 vers MME 127.0.1.100:36412
+Nombre de trames décodées : 32
+Protocole observé : SCTP sur S1AP
+
+Séquence principale :
+- SCTP INIT
+- SCTP INIT_ACK
+- SCTP COOKIE_ECHO
+- SCTP COOKIE_ACK
+- SCTP DATA entre eNodeB et MME
+- SACK
+- Heartbeat Request / Heartbeat ACK répétés
+
+Interprétation :
+La capture prouve que l'eNodeB communique avec le MME et que l'association SCTP/S1AP est établie puis maintenue. Elle ne prouve pas un attachement LTE complet de l'UE.

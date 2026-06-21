@@ -1,0 +1,16 @@
+<!-- Extrait assaini du provisioning Cisco via TFTP. -->
+<device>
+  <deviceProtocol>SIP</deviceProtocol>
+  <sshUserId>admin</sshUserId>
+  <sshPassword>&lt;mot-de-passe-masque&gt;</sshPassword>
+  <processNodeName>&lt;ip-serveur-asterisk&gt;</processNodeName>
+  <phoneLabel>CiscoXX</phoneLabel>
+  <sipLines>
+    <line button="1">
+      <featureLabel>CiscoXX</featureLabel>
+      <authName>CiscoXX</authName>
+      <authPassword>&lt;mot-de-passe-masque&gt;</authPassword>
+      <contact>CiscoXX</contact>
+    </line>
+  </sipLines>
+</device>

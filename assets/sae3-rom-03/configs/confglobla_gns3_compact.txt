@@ -1,0 +1,1828 @@
+witch2>icate.
+    Secure server will use temporary self-signed certificate.
+
+*Feb  6 14:37:05.267: %PLATFORM-5-SIGNATURE_VERIFIED: Image 'flash0:/vios_l2-adventerprisek9-m' passed code signing verification
+Switch2>
+Switch2>en
+Switch2#show run
+Building configuration...
+
+Current configuration : 5135 bytes
+!
+! Last configuration change at 14:36:01 UTC Fri Feb 6 2026
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname Switch2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username admin privilege 15 secret 5 $1$4dl2$iWEXOp3DXCgQnOzxKpq2//
+no aaa new-model
+!
+!
+!
+!         
+!
+no ip routing
+!
+!
+!
+no ip domain-lookup
+ip domain-name hq.local
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+! 
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Uplink-vers-HQ-SW1
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ description Uplink-vers-HQ-SW2
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ description UNUSED
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet0/3
+ description DMZ_PROXY
+ switchport access vlan 80
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ description DHCP-DNS-SERVER
+ switchport access vlan 10
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/2
+ description DHCP-DNS-SERVER
+ switchport access vlan 70
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/3
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ description UNUSED
+ switchport access vlan 99
+ switchport mode access
+ shutdown
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet2/1
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet2/2
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet2/3
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/0
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/1
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/2
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/3
+ description UNUSED
+ shutdown
+ negotiation auto
+!
+interface Vlan20
+ no ip address
+!
+interface Vlan99
+ ip address 10.0.99.12 255.255.255.0
+!
+ip default-gateway 10.0.99.254
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh time-out 60
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list standard SSH_ADMIN
+ permit 10.0.10.0 0.0.0.255
+ permit 10.0.99.0 0.0.0.255
+ permit 10.10.10.0 0.0.0.255
+ deny   any
+!
+!
+logging trap debugging
+logging host 10.0.10.10
+!
+!
+!
+!         
+control-plane
+!
+banner exec ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner incoming ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+          
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner login ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+!
+!
+end
+
+Switch2#                                        
+
+ware is expressly prohibited.
+
+Switch1>
+Switch1>en
+Switch1#sh run
+Building configuration...
+
+Current configuration : 4672 bytes
+!
+! Last configuration change at 14:36:00 UTC Fri Feb 6 2026
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname Switch1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username admin privilege 15 secret 5 $1$XL1K$rgWNXnJ4E4UhPOZY2RzzG.
+no aaa new-model
+!
+!
+!
+!         
+!
+no ip routing
+!
+!
+!
+no ip domain-lookup
+ip domain-name hq.local
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+! 
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Uplink-vers-HQ-SW1
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ description Uplink-vers-HQ-SW2
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ description Debian-1
+ switchport access vlan 10
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/3
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ switchport access vlan 20
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/1
+ negotiation auto
+!
+interface GigabitEthernet2/2
+ negotiation auto
+!
+interface GigabitEthernet2/3
+ negotiation auto
+!
+interface GigabitEthernet3/0
+ switchport access vlan 30
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/1
+ switchport access vlan 40
+ switchport mode access
+ negotiation auto
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/2
+ negotiation auto
+!
+interface GigabitEthernet3/3
+ negotiation auto
+!
+interface Vlan99
+ ip address 10.0.99.11 255.255.255.0
+!
+ip default-gateway 10.0.99.254
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh time-out 60
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list standard SSH_ADMIN
+ permit 10.0.10.0 0.0.0.255
+ permit 10.0.99.0 0.0.0.255
+ permit 10.10.10.0 0.0.0.255
+ deny   any
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+IOSv - Cisco Systems Confidential -
+
+          
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner incoming ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C        
+banner login ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+!
+!
+end
+
+Switch1#$                                                                    
+
+
+BR-R1#sh 
+% Type "show ?" for a list of subcommands
+BR-R1#
+BR-R1#show run
+Building configuration...
+
+Current configuration : 4338 bytes
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname BR-R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!         
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+crypto isakmp policy 10
+ encr aes
+ authentication pre-share
+ group 14
+crypto isakmp key VPN-SITE address 10.10.250.10   
+!
+!
+crypto ipsec transform-set TS-SITE esp-aes esp-sha-hmac 
+ mode tunnel
+!
+!
+!
+crypto map CMAP-SITE 10 ipsec-isakmp 
+ set peer 10.10.250.10
+ set transform-set TS-SITE 
+ match address VPN-SITE
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description === WAN vers operateur ===
+ ip address 10.10.250.18 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+ crypto map CMAP-SITE
+!
+interface GigabitEthernet0/1
+ description Trunk-vers-Switch3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1.10
+ encapsulation dot1Q 10
+ ip address 10.20.10.1 255.255.255.0
+!
+interface GigabitEthernet0/1.20
+ encapsulation dot1Q 20
+ ip address 10.20.20.1 255.255.255.0
+!
+interface GigabitEthernet0/1.30
+ encapsulation dot1Q 30
+ ip address 10.20.30.1 255.255.255.0
+!
+interface GigabitEthernet0/1.40
+ encapsulation dot1Q 40
+ ip address 10.20.40.1 255.255.255.0
+!
+interface GigabitEthernet0/1.50
+ encapsulation dot1Q 50
+ ip address 10.20.50.1 255.255.255.0
+!
+interface GigabitEthernet0/1.60
+ encapsulation dot1Q 60
+ ip address 10.20.60.1 255.255.255.0
+!
+interface GigabitEthernet0/1.99
+ encapsulation dot1Q 99
+ ip address 10.20.99.1 255.255.255.0
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.10.250.17
+ip route 10.10.0.0 255.255.0.0 GigabitEthernet0/0
+!
+ip access-list extended VPN-SITE
+ permit ip 10.20.0.0 0.0.255.255 10.10.0.0 0.0.255.255
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+BR-R1#                   
+
+
+nternet#show run
+Building configuration...
+
+Current configuration : 4478 bytes
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname internet
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!         
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 10.10.250.9 255.255.255.252
+ ip access-group VPN-PASS in
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list 1 interface GigabitEthernet0/2 overload
+ip nat inside source list NAT-EXEMPT-VPN interface GigabitEthernet0/2 overload
+ip nat inside source list NAT-INSIDE interface GigabitEthernet0/2 overload
+ip route 10.0.0.0 255.0.0.0 10.10.250.10
+ip route 10.20.0.0 255.255.0.0 10.10.250.18
+ip route 0.0.0.0 0.0.0.0 dhcp
+!
+ip access-list extended NAT-EXEMPT-VPN
+ deny   ip 10.10.0.0 0.0.255.255 10.20.0.0 0.0.255.255
+ deny   ip 10.20.0.0 0.0.255.255 10.10.0.0 0.0.255.255
+ permit ip 10.0.0.0 0.255.255.255 any
+ip access-list extended NAT-INSIDE
+ deny   ip 10.10.0.0 0.0.255.255 10.20.0.0 0.0.255.255
+ permit ip 10.0.0.0 0.255.255.255 any
+ip access-list extended VPN-PASS
+ permit udp host 10.10.250.10 host 10.10.250.18 eq isakmp
+ permit udp host 10.10.250.18 host 10.10.250.10 eq isakmp
+ permit esp host 10.10.250.10 host 10.10.250.18
+ permit esp host 10.10.250.18 host 10.10.250.10
+ permit ip any any
+ip access-list extended VPN-PASSTHRU
+ permit udp host 10.10.250.10 host 10.10.250.18 eq isakmp
+ permit udp host 10.10.250.18 host 10.10.250.10 eq isakmp
+ permit esp host 10.10.250.10 host 10.10.250.18
+ permit esp host 10.10.250.18 host 10.10.250.10
+ permit ip any any
+!
+ipv6 ioam timestamp
+!
+!
+access-list 1 permit 10.0.0.0 0.255.255.255
+access-list 1 permit 10.10.250.0 0.0.0.3
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!         
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+internet#$                                                                   
+
+% Unknown command or computer name, or unable to find computer address
+HQ-SW2>en
+HQ-SW2#sh run
+Building configuration...
+
+Current configuration : 7964 bytes
+!
+! Last configuration change at 14:36:01 UTC Fri Feb 6 2026
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname HQ-SW2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username admin privilege 15 secret 5 $1$HBJi$bpFAn6ROI..Kg6qU9uquV1
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name hq.local
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+spanning-tree vlan 10,20,30,40,50,60,70,80,99 priority 28672
+!
+!
+! 
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Vers Router2 (MGMT VLAN99)
+ switchport access vlan 99
+ switchport mode access
+ switchport nonegotiate
+ negotiation auto
+ spanning-tree portfast edge
+!
+interface GigabitEthernet0/1
+ description *** TRUNK INTER-SWITCH HQ-SW2 <-> HQ-SW1 ***
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ description Vers Switch2
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ description Vers Switch1
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ description Vers Router2 (VLAN99 access)
+ switchport access vlan 99
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+ negotiation auto
+ spanning-tree portfast edge
+!         
+interface GigabitEthernet1/1
+ description Vers Router2
+ no switchport
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ negotiation auto
+!
+interface GigabitEthernet2/1
+ negotiation auto
+!
+interface GigabitEthernet2/2
+ negotiation auto
+!
+interface GigabitEthernet2/3
+ negotiation auto
+!
+interface GigabitEthernet3/0
+ negotiation auto
+!
+interface GigabitEthernet3/1
+ negotiation auto
+!
+interface GigabitEthernet3/2
+ negotiation auto
+!
+interface GigabitEthernet3/3
+ negotiation auto
+!
+interface Vlan10
+ ip address 10.10.10.2 255.255.255.0
+ ip access-group LAN_TO_PROXY in
+ ip helper-address 10.10.70.10 
+ standby 10 ip 10.10.10.254
+ standby 10 preempt
+!
+interface Vlan20
+ ip address 10.10.20.2 255.255.255.0
+ ip access-group LAN_TO_PROXY in
+ ip helper-address 10.10.70.10 
+ standby 20 ip 10.10.20.254
+ standby 20 preempt
+!
+interface Vlan30
+ ip address 10.10.30.2 255.255.255.0
+ ip access-group LAN_TO_PROXY in
+ ip helper-address 10.10.70.10 
+ standby 30 ip 10.10.30.254
+ standby 30 preempt
+!
+interface Vlan40
+ ip address 10.10.40.2 255.255.255.0
+ ip access-group LAN_TO_PROXY in
+ ip helper-address 10.10.70.10 
+ standby 40 ip 10.10.40.254
+ standby 40 preempt
+!
+interface Vlan50
+ ip address 10.10.50.2 255.255.255.0
+ ip access-group LAN_TO_PROXY in
+ ip helper-address 10.10.70.10 
+ standby 50 ip 10.10.50.254
+ standby 50 preempt
+!
+interface Vlan60
+ ip address 10.10.60.2 255.255.255.0
+ ip access-group LAN_TO_PROXY in
+ ip helper-address 10.10.70.10 
+ standby 60 ip 10.10.60.254
+ standby 60 preempt
+!
+interface Vlan70
+ ip address 10.10.70.2 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 70 ip 10.10.70.254
+ standby 70 preempt
+!
+interface Vlan80
+ ip address 10.10.80.2 255.255.255.0
+ ip access-group DMZ_IN in
+ ip helper-address 10.10.70.10 
+ standby 80 ip 10.10.80.254
+ standby 80 preempt
+!         
+interface Vlan99
+ ip address 10.0.99.2 255.255.255.0
+ standby 99 ip 10.0.99.254
+ standby 99 preempt
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.0.99.3
+ip ssh time-out 60
+ip ssh source-interface Vlan99
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list standard SSH_ADMIN
+ permit 10.0.10.0 0.0.0.255
+ permit 10.0.99.0 0.0.0.255
+ permit 10.10.10.0 0.0.0.255
+ deny   any
+!         
+ip access-list extended DMZ_IN
+ permit tcp any any established
+ permit tcp host 10.10.80.10 any eq www
+ permit tcp host 10.10.80.10 any eq 443
+ permit udp host 10.10.80.10 any eq domain
+ permit tcp 10.10.10.0 0.0.0.255 host 10.10.80.10 eq 3128
+ permit tcp 10.10.30.0 0.0.0.255 host 10.10.80.10 eq 3128
+ permit tcp 10.10.20.0 0.0.0.255 host 10.10.80.10 eq 3128
+ permit udp host 10.10.80.10 host 10.10.70.10 eq domain
+ deny   ip any any log
+ remark === DNS vers serveur interne ===
+ permit udp 10.10.80.0 0.0.0.255 host 10.10.70.10 eq domain
+ permit tcp 10.10.80.0 0.0.0.255 host 10.10.70.10 eq domain
+ remark === HTTP/HTTPS vers Internet ===
+ permit tcp 10.10.80.0 0.0.0.255 any eq www
+ permit tcp 10.10.80.0 0.0.0.255 any eq 443
+ remark === ICMP debug (optionnel) ===
+ permit udp host 10.10.80.10 any eq ntp
+ip access-list extended LAN_TO_PROXY
+ remark === Multicast (HSRP, routing interne)
+ permit udp any 224.0.0.0 0.0.0.255
+ remark === ICMP (debug, supervision)
+ permit icmp any any
+ remark === DHCP (clients)
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ remark === DHCP relay vers serveur
+ permit udp host 10.10.10.1 host 10.10.70.10 eq bootps
+ permit udp host 10.10.10.2 host 10.10.70.10 eq bootps
+ permit udp host 10.10.70.10 host 10.10.10.1 eq bootps
+ permit udp host 10.10.70.10 host 10.10.10.2 eq bootps
+ remark === DNS vers serveur interne
+ permit udp 10.10.0.0 0.0.255.255 host 10.10.70.10 eq domain
+ permit tcp 10.10.0.0 0.0.255.255 host 10.10.70.10 eq domain
+ remark === SSH ADMIN (ALLER)
+ permit tcp 10.10.10.0 0.0.0.255 10.0.99.0 0.0.0.255 eq 22
+ remark === SSH ADMIN (RETOUR)
+ permit tcp 10.0.99.0 0.0.0.255 10.10.10.0 0.0.0.255 established
+ remark === Proxy Squid
+ permit tcp 10.10.0.0 0.0.255.255 host 10.10.80.10 eq 3128
+ remark === DENY FINAL
+ deny   ip any any log
+!
+ip radius source-interface Vlan99 
+logging source-interface Vlan99
+logging host 10.0.10.10
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner incoming ^C
+IOSv - Cisco Systems Confidential -
+          
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner login ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C        
+!
+line con 0
+line aux 0
+line vty 0 4
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+!
+!
+end
+
+HQ-SW2#$                                                                     
+
+HQ-SW1#show run 
+Building configuration...
+
+Current configuration : 8068 bytes
+!
+! Last configuration change at 14:36:00 UTC Fri Feb 6 2026
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname HQ-SW1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username admin privilege 15 secret 5 $1$Yclh$Ym.rmH//UKNNd74teHl1D0
+no aaa new-model
+!
+!
+!
+!         
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name hq.local
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+spanning-tree vlan 10,20,30,40,50,60,70,80,99 priority 24576
+!
+!
+! 
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Vers HQ-SW2
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ description *** TRUNK INTER-SWITCH HQ-SW1 <-> HQ-SW2 ***
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ description Vers Switch1
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ description Vers Switch2
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport nonegotiate
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ description Vers Router1
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,80,99
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ description Vers Router2
+ no switchport
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ negotiation auto
+!
+interface GigabitEthernet2/1
+ negotiation auto
+!
+interface GigabitEthernet2/2
+ negotiation auto
+!
+interface GigabitEthernet2/3
+ negotiation auto
+!
+interface GigabitEthernet3/0
+ negotiation auto
+!         
+interface GigabitEthernet3/1
+ negotiation auto
+!
+interface GigabitEthernet3/2
+ negotiation auto
+!
+interface GigabitEthernet3/3
+ negotiation auto
+!
+interface Vlan10
+ ip address 10.10.10.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 10 ip 10.10.10.254
+ standby 10 priority 110
+ standby 10 preempt
+!
+interface Vlan20
+ ip address 10.10.20.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 20 ip 10.10.20.254
+ standby 20 priority 110
+ standby 20 preempt
+!         
+interface Vlan30
+ ip address 10.10.30.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 30 ip 10.10.30.254
+ standby 30 priority 110
+ standby 30 preempt
+!
+interface Vlan40
+ ip address 10.10.40.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 40 ip 10.10.40.254
+ standby 40 priority 110
+ standby 40 preempt
+!
+interface Vlan50
+ ip address 10.10.50.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 50 ip 10.10.50.254
+ standby 50 priority 110
+ standby 50 preempt
+!
+interface Vlan60
+ ip address 10.10.60.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 60 ip 10.10.60.254
+ standby 60 priority 110
+ standby 60 preempt
+!
+interface Vlan70
+ ip address 10.10.70.1 255.255.255.0
+ ip helper-address 10.10.70.10 
+ standby 70 ip 10.10.70.254
+ standby 70 priority 110
+ standby 70 preempt
+!
+interface Vlan80
+ ip address 10.10.80.1 255.255.255.0
+ ip access-group DMZ_IN in
+ ip helper-address 10.10.70.10 
+ standby 80 ip 10.10.80.254
+ standby 80 priority 110
+ standby 80 preempt
+!
+interface Vlan99
+ ip address 10.0.99.1 255.255.255.0
+ standby 99 ip 10.0.99.254
+ standby 99 priority 110
+ standby 99 preempt
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.0.99.3
+ip ssh time-out 60
+ip ssh source-interface Vlan99
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list standard SSH_ADMIN
+ permit 10.10.10.0 0.0.0.255
+ deny   any
+!
+ip access-list extended DMZ_IN
+ permit tcp any any established
+ permit tcp host 10.10.80.10 any eq www
+ permit tcp host 10.10.80.10 any eq 443
+ permit udp host 10.10.80.10 any eq domain
+ permit tcp 10.10.10.0 0.0.0.255 host 10.10.80.10 eq 3128
+ permit tcp 10.10.30.0 0.0.0.255 host 10.10.80.10 eq 3128
+ permit tcp 10.10.20.0 0.0.0.255 host 10.10.80.10 eq 3128
+ permit udp host 10.10.80.10 host 10.10.70.10 eq domain
+ remark === DNS vers serveur interne ===
+ permit udp 10.10.80.0 0.0.0.255 host 10.10.70.10 eq domain
+ permit tcp 10.10.80.0 0.0.0.255 host 10.10.70.10 eq domain
+ remark === HTTP/HTTPS vers Internet ===
+ permit tcp 10.10.80.0 0.0.0.255 any eq www
+ permit tcp 10.10.80.0 0.0.0.255 any eq 443
+ remark === ICMP debug (optionnel) ===
+ permit udp host 10.10.80.10 any eq ntp
+ remark === Multicast local (HSRP / OSPF / control plane) ===
+ permit udp any 224.0.0.0 0.0.0.255
+ remark === ICMP debug ===
+ permit icmp any any
+ remark === Proxy Squid ===
+ remark === HTTP/HTTPS vers Internet ===
+ remark === Flux C)tablis ===
+ remark === DENY FINAL ===
+ deny   ip any any log
+ip access-list extended LAN_TO_PROXY
+ remark === Multicast (HSRP, routing interne)
+ permit udp any 224.0.0.0 0.0.0.255
+ remark === ICMP (debug, supervision)
+ permit icmp any any
+ remark === DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ remark === DNS vers serveur interne
+ permit udp 10.10.0.0 0.0.255.255 host 10.10.70.10 eq domain
+ permit tcp 10.10.0.0 0.0.255.255 host 10.10.70.10 eq domain
+ remark === LAN -> INTERNET (VIA ROUTER2)
+ permit ip 10.10.0.0 0.0.255.255 any
+ remark === ALLER INTERNET ===
+ remark === RETOUR INTERNET ===
+ permit tcp any 10.10.0.0 0.0.255.255 established
+ permit udp any 10.10.0.0 0.0.255.255
+ permit icmp any 10.10.0.0 0.0.255.255
+ permit ip any 10.10.0.0 0.0.255.255
+ remark === MULTICAST / ICMP / DHCP ===
+ remark === DNS INTERNE ===
+ remark === RETOUR INTERNET (CRITIQUE) ===
+ remark === SORTIE INTERNET ===
+ remark === DENY FINAL ===
+ deny   ip any any log
+!
+ip radius source-interface Vlan99 
+logging source-interface Vlan99
+logging host 10.0.10.10
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C        
+banner incoming ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+banner login ^C
+IOSv - Cisco Systems Confidential -
+
+Supplemental End User License Restrictions
+
+This IOSv software is provided AS-IS without warranty of any kind. Under no circumstances may this software be used separate from the Cisco Modeling Labs Software that this software was provided with, or deployed or used as part of a production environment.
+          
+By using the software, you agree to abide by the terms and conditions of the Cisco End User License Agreement at http://www.cisco.com/go/eula. Unauthorized use or distribution of this software is expressly prohibited.
+^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+!
+!
+end
+
+HQ-SW1#$                                                                     
+
+
+% Type "show ?" for a list of subcommands
+Router2#show run
+Building configuration...
+
+  
+Current configuration : 4422 bytes
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition VRF-SITE
+ rd 65000:10
+ !
+ address-family ipv4
+ exit-address-family
+!
+!
+no aaa new-model
+!
+!         
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name hq.local
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username admin privilege 15 secret 9 $9$D0uCIBYLKwe8Zv$WT75vtbvkaPGeEwPiya6tylOCToiUYUAytX21l/NuRY
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+crypto isakmp policy 10
+ encr aes
+ authentication pre-share
+ group 14
+crypto isakmp key VPN-SITE address 10.10.250.18   
+!         
+!
+crypto ipsec transform-set TS-SITE esp-aes esp-sha-hmac 
+ mode tunnel
+!
+!
+!
+crypto map CMAP-SITE 10 ipsec-isakmp 
+ set peer 10.10.250.18
+ set transform-set TS-SITE 
+ match address VPN-SITE
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Vers HQ-SW1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/1
+ description Vers HQ-SW2
+ ip address 10.0.99.3 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description Vers Firewall-1
+ ip address 172.16.10.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description === WAN VRF SITE ===
+ ip address 10.10.250.10 255.255.255.252
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+ crypto map CMAP-SITE
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list NAT_LAN interface GigabitEthernet0/3 overload
+ip route 0.0.0.0 0.0.0.0 10.10.250.9
+ip route vrf VRF-SITE 0.0.0.0 0.0.0.0 10.10.250.9
+ip ssh time-out 60
+ip ssh version 2
+!
+ip access-list standard NAT_LAN
+ permit 10.10.0.0 0.0.255.255
+ip access-list standard SSH_ADMIN
+ permit 10.0.10.0 0.0.0.255
+ permit 10.0.99.0 0.0.0.255
+ deny   any
+!
+ip access-list extended VPN-SITE
+ permit ip 10.10.0.0 0.0.255.255 10.20.0.0 0.0.255.255
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+!
+no scheduler allocate
+!
+end
+
+Router2#$                            
+
+er1#
+Router1#show run
+Building configuration...
+
+Current configuration : 3781 bytes
+!
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!         
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name hq.local
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username admin privilege 15 secret 9 $9$twTpuS9lJZxDe9$5oOSxvAUfPNKCCJ4btB5eFiaqOnV68niLwikEgQpEWE
+!         
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description Vers HQ-SW1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Vers HQ-SW2
+ ip address 10.10.250.6 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description Vers Router2
+ ip address 10.10.250.17 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface GigabitEthernet0/3
+ network 10.10.250.16 0.0.0.3 area 0
+ network 10.10.250.0 0.0.0.31 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.10.250.18
+ip ssh time-out 60
+ip ssh version 2
+!
+ip access-list standard SSH_ADMIN
+ permit 10.0.10.0 0.0.0.255
+ permit 10.0.99.0 0.0.0.255
+ deny   any
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ADMIN in
+ login local
+ transport input ssh
+!
+no scheduler allocate
+!
+end
+
+Router1#$                                                                    
+

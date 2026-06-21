@@ -1,0 +1,7 @@
+######################################################
+##     Soapy SDR -- the SDR abstraction library     ##
+######################################################
+
+Probe device driver=plutosdr,uri=usb:1.2.5
+[1m[31m[ERROR] no device context found.[0m
+Error probing device: no device context found

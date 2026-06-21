@@ -1,0 +1,61 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    gnupg \
+    iproute2 \
+    iputils-ping \
+    net-tools \
+    pkg-config \
+    procps \
+    cmake \
+    g++ \
+    make \
+    git \
+    libsctp1 \
+    libsctp-dev \
+    libfftw3-dev \
+    libmbedtls-dev \
+    libboost-program-options-dev \
+    libconfig++-dev \
+    libpcsclite-dev \
+    libsoapysdr-dev \
+    soapysdr-tools \
+    libiio-dev \
+    libiio-utils \
+    libad9361-dev \
+    libusb-1.0-0-dev \
+    libtool \
+    libudev-dev \
+    libzmq3-dev \
+    libczmq-dev \
+    libyaml-cpp-dev \
+    nano \
+    tcpdump \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+RUN git clone --depth 1 https://github.com/pothosware/SoapyPlutoSDR.git /workspace/SoapyPlutoSDR
+RUN mkdir -p /workspace/SoapyPlutoSDR/build && cd /workspace/SoapyPlutoSDR/build && \
+    cmake .. && \
+    make -j"$(nproc)" && \
+    make install && \
+    ldconfig
+
+RUN git clone --depth 1 --branch release_25_10 https://github.com/srsran/srsRAN_4G.git /workspace/srsRAN_4G
+RUN mkdir -p /workspace/srsRAN_4G/build && cd /workspace/srsRAN_4G/build && \
+    cmake -DENABLE_ZEROMQ=ON -DENABLE_SOAPYSDR=ON -DCMAKE_BUILD_TYPE=Release .. && \
+    make -j"$(nproc)" && \
+    make install && \
+    ldconfig
+
+ENV SRS_DIR=/workspace/srsRAN_4G
+ENV PATH="/usr/local/bin:${PATH}"
+
+RUN mkdir -p /etc/srsran /var/log/srsran
+
+WORKDIR /workspace

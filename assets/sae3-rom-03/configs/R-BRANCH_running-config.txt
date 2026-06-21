@@ -1,0 +1,185 @@
+Building configuration...
+
+Current configuration : 3715 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname R-BRANCH
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$3BvKLHmpEjITaJXT9nmgT/
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524L2QD-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name sae.local
+!
+!
+spanning-tree mode pvst
+!
+class-map match-any CM-VIDEO
+class-map match-any CM-VIDEO-BR
+ match access-group name ACL-VIDEO-BR
+class-map match-any CM-DHCP-BR
+ match access-group name ACL-DHCP-BR
+!
+policy-map PM-WAN-QOS
+ class CM-VIDEO
+  priority percent 30
+ class class-default
+  fair-queue
+!
+policy-map PM-QOS-BRANCH
+ class CM-DHCP-BR
+  bandwidth percent 5
+ class CM-VIDEO-BR
+  priority percent 30
+ class class-default
+  fair-queue
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.10.253 255.255.255.255
+!
+interface Loopback10
+ ip address 10.255.255.1 255.255.255.255
+!
+interface Tunnel0
+ ip address 10.0.0.1 255.255.255.252
+ mtu 1476
+ tunnel source GigabitEthernet0/0
+ tunnel destination 192.168.3.1
+!
+!
+interface GigabitEthernet0/0
+ description WAN-TO-HQ
+ ip address 192.168.3.2 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.20
+ description VLAN20-PERSONNEL
+ encapsulation dot1Q 20
+ ip address 192.168.120.254 255.255.255.0
+ ip helper-address 192.168.10.10
+!
+interface GigabitEthernet0/1.40
+ description VLAN40-PRODUCTION
+ encapsulation dot1Q 40
+ ip address 192.168.140.254 255.255.255.0
+ ip helper-address 192.168.10.10
+ ip access-group BLOCK-PROD-BRANCH in
+!
+interface GigabitEthernet0/1.50
+ description VLAN50-GUEST
+ encapsulation dot1Q 50
+ ip address 192.168.150.254 255.255.255.0
+ ip helper-address 192.168.10.10
+ ip access-group GUEST-WEB in
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 20.20.20.20
+ log-adjacency-changes
+ network 10.0.0.0 0.0.0.3 area 0
+ network 192.168.120.0 0.0.0.255 area 0
+ network 192.168.140.0 0.0.0.255 area 0
+ network 192.168.150.0 0.0.0.255 area 0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.0.0.2 
+!
+ip flow-export version 9
+!
+!
+ip access-list standard MGMT
+ permit 192.168.10.0 0.0.0.255
+ip access-list extended GRE-TRAFFIC
+ permit gre host 192.168.3.2 host 192.168.3.1
+ip access-list extended BLOCK-PROD
+ deny ip 192.168.20.0 0.0.0.255 192.168.40.0 0.0.0.255
+ deny ip 192.168.40.0 0.0.0.255 192.168.20.0 0.0.0.255
+ permit ip any any
+ip access-list extended BLOCK-PROD-BRANCH
+ deny ip 192.168.140.0 0.0.0.255 192.168.120.0 0.0.0.255
+ permit ip any any
+ip access-list extended ACL-VIDEO-BR
+ permit ip 192.168.130.0 0.0.0.255 any
+ip access-list extended ACL-DHCP-BR
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended GUEST-WEB
+ remark DHCP vers serveur central (obligatoire)
+ permit udp any eq bootpc host 192.168.10.10 eq bootps
+ permit udp host 192.168.10.10 eq bootps any eq bootpc
+ remark DNS uniquement vers 192.168.10.10
+ permit udp 192.168.150.0 0.0.0.255 host 192.168.10.10 eq domain
+ permit tcp 192.168.150.0 0.0.0.255 host 192.168.10.10 eq domain
+ remark Web uniquement via proxy 192.168.10.12
+ permit tcp 192.168.150.0 0.0.0.255 host 192.168.10.12 eq www
+ permit tcp 192.168.150.0 0.0.0.255 host 192.168.10.12 eq 443
+ remark Bloquer acces aux reseaux internes
+ deny ip 192.168.150.0 0.0.0.255 192.168.0.0 0.0.255.255
+ remark Bloquer le reste
+ deny ip 192.168.150.0 0.0.0.255 any
+!
+!
+!
+!
+!
+logging 192.168.10.11
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ access-class MGMT in
+ login local
+ transport input ssh
+!
+!
+!
+end
